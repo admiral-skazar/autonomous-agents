@@ -1,5 +1,3 @@
-# negotiation_simulation_ollama.py
-
 import subprocess
 import re
 

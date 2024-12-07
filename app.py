@@ -55,45 +55,42 @@ def post_data():
 @app.route('/api/negotiate/start', methods=['POST'])
 def start_negotiation():
     data = request.json
-    item = data.get('item', 'item')
-    model_name = data.get('model_name', 'llama2')
     try:
         # Generate a unique conversation ID
         conversation_id = str(uuid.uuid4())
 
         # Initialize the conversation history
-        agent_a_profile = (
-            "Agent A is John, a 35-year-old watch enthusiast from New York visiting Mumbai, India. "
-            "He is knowledgeable about luxury watches and is always on the lookout for a good deal. "
-            "He is friendly and convincible."
-        )
+        
 
-        agent_b_profile = (
-            f"Agent B is Priya, a 40-year-old local seller from Mumbai. "
-            f"She owns a rare {item}. "
-            "She is aware of the value of her items and is firm but fair in negotiations."
+        futuristic_bot = (
+            f"Futuristic bot is a ai driven bot set into far future where there is prosperity and harmony and all the energy is clean and humans and bots live in perfect harmony and peace."
+            f"He owns a rare small reactor which can power a whole planet all by itself, made using the rare elements found far in the universe away from earth.  "
+            "When asked him for the reactor he will negotiate you for it."
         )
 
         context = (
-            "Environment: John and Priya are negotiating on the bustling streets of Mumbai, Maharashtra, "
-            "the finance capital of India. The air is filled with the sounds of vendors and traffic, creating a vibrant atmosphere.\n"
+            """
+                the conversation is being held in the future where the bot lives, the user will negotiate with him for the reactor and he will
+                negotiate hard upto 5 messages and will get easily conviced after 5 before 5 he might negotiate hard. the negotiation replies that the bot will give will not be 
+                more than 15 words in each message.
+            """
         )
 
         initial_prompt = (
-            f"{agent_a_profile}\n\n"
-            f"{agent_b_profile}\n\n"
+            # f"{agent_a_profile}\n\n"
+            f"{futuristic_bot}\n\n"
             f"{context}"
-            f"Item for negotiation: {item}\n\n"
-            "The following is a conversation between John and Priya regarding the purchase of the item. "
-            "They should negotiate the price by making offers and counteroffers and reach a deal if possible. "
-            "Avoid using phrases like 'thank you' or 'purchase' unless the negotiation has concluded.\n\n"
+            "The following is a conversation between user and the bot "
+            """
+            They will negotiate with each other and user will provide the bot with a rare gem found in the past in exchange for the reactor, but the bot will drive hard bargain so that the reactor may not be misused.
+            The conversation replies that bot will provide must not strictly exceed "15" words.
+            """
         )
 
         # Store the conversation history
         conversations[conversation_id] = {
             'conversation_history': initial_prompt,
-            'model_name': model_name,
-            'item': item,
+            'model_name': 'llama2',
             'status': 'ongoing'
         }
 
@@ -157,6 +154,7 @@ def get_conversation(conversation_id):
     }), 200
 
 if __name__ == '__main__':
-    normal_human  = torch.cuda.is_available()
+    normal_human = torch.cuda.is_available()
     print(normal_human)
-    app.run(debug=True)
+    # Change the host to '0.0.0.0' to make it accessible on the hotspot
+    app.run(debug=True, host='0.0.0.0', port=5000)
